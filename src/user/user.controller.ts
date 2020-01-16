@@ -20,26 +20,31 @@ export class UserController {
         })
     }
 
+    // jsonp实现不跳转获取token,把其它域的token从jsonp的body内反回
     @Get('/getTicket')
     getCookie(@Req() req, @Res() res): Promise<Object> {
         return this.userService.getTicket(req, res);
     }
 
+    // 取用户信息，需要登录cookie
     @Get('/getUserInfo')
     getUserInfo(@Req() req, @Res() res): Promise<Object> {
         return this.userService.getUserInfo(req, res);
     }
 
+    // login页面验证本域的cookie
     @Get('/authorize')
     authorize(@Req() req): Promise<Object> {
         return this.userService.authorize(req);
     }
 
+    // login页面登录授权，取得cookie
     @Post('/login')
     login(@Body() body, @Res() res, @Req() req): Promise<Object> {
         return this.userService.login(body.username, body.password, res, req);
     }
 
+    // 登出
     @Get('/logout')
     logout(@Req() req): Promise<Object> {
         return this.userService.logout(req);
