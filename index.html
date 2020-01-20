@@ -35,7 +35,13 @@
     <script>
         const axiosInstance = axios.create({
             headers: { 'Content-Type': 'application/json;charset=utf-8' },
-            withCredentials: true // 设置允许跨域携带cookie
+            /**
+             *  设置允许跨域携带cookie,
+             * 如果不跨域，使用nginx转发的话，这个参数没用。
+             * 如果跨域，会带上cookie,返回时服务器要设置允许跨域头header('Access-Control-Allow-Origin:*'); （全域名访问，不安全需要限制为R.com)
+             * 跨域时，如果使用自定义的http头，浏览器会先发一个option,后端代码要响应!
+             */
+            withCredentials: true 
         })
 
         const app = new Vue({

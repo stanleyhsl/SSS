@@ -9,8 +9,10 @@
 ** 关键点在于浏览器的一个机制，调用jsonp时，会自动带上这个域的cookie，而这个域的服务器在验证cookie后，会把这个cookie/token放在响应体内返回给本页面的ajax jsonp; 这样我们就拿到了其它域的cookie.
 
 demo使用的第三方库:
-nestjs,mysql,redis,vue
-jwt
+nestjs,
+mysql:https://www.jianshu.com/p/4fc53d7d7620,
+redis:https://www.jianshu.com/p/bb7c19c5fc47,
+vue,jwt
 hosts 伪造不同的域；
 nginx 把不同地域的请求代理到一个nestjs sever以减少demo代码量
 
@@ -43,5 +45,17 @@ http://casa.com:1280/
 
 ### 需要注意的点
 1. 同一个一级域名下可以通过 设置cookie的doman来共享cookie
-2. jsonp跨域请求时，会把要跨的那个域的cookie带上，返回时还可以给那个域设置新cookie.
+2. jsonp跨域请求时，会把要跨的那个域的cookie带上(而不是本域)，返回时还可以给那个域设置新cookie,如果cookie在response中返回则可以给本域设置cookie.这是无感觉单点的灵魂。
+3. 如果web端跨域的请求不是Simple Request（简单请求 ），则会触发“PreFlight”（OPTIONS）。
+```
+    Mozilla对于简单请求的要求是：以下三项必须都成立：
+      1. 只能是Get、Head、Post方法
+      2. 除了浏览器自己在Http头上加的信息（如Connection、User-Agent），开发者只能加这几个：Accept、Accept-Language、    Content-Type、。。。。
+      3. Content-Type只能取这几个值：
+          application/x-www-form-urlencoded
+          multipart/form-data
+          text/plain
+
+    PreFlight是指
+```
 
